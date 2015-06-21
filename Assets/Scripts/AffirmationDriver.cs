@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class AffirmationController : MonoBehaviour 
+public class AffirmationDriver : MonoBehaviour 
 {
 	
 	void Start () 
