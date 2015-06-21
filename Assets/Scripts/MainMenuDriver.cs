@@ -25,7 +25,6 @@ public class MainMenuDriver : MonoBehaviour
 		
 		if ( mdc != null )
 		{
-			Debug.Log( mdc.ToString());
 			if(mToggle != null)
 				mToggle.isOn = mdc.pJournalDone;
 		}
