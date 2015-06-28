@@ -47,7 +47,7 @@ public class MainMenuDriver : MonoBehaviour
 		} else if (buttonID == 4) {
 			Application.LoadLevel ("Progress");
 		} else if (buttonID == 5) {
-			Application.LoadLevel ("Find A Therapist");
+			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist/@30.5209837,-97.6825424,11z");
 		} else if (buttonID == 6) {
 			Application.LoadLevel ("Arm Yourself");
 		} else if (buttonID == 7) {
