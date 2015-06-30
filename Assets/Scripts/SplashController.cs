@@ -8,7 +8,7 @@ public class SplashController : MonoBehaviour
 	float m_Alpha = 0.0f;
 	void Start()
 	{
-		StartCoroutine(WaitAndContinue(5.5f));
+		StartCoroutine(WaitAndContinue(3f));
 		Color col = m_TitleImage.color;
 		col.a = 0;
 		m_TitleImage.color = col;
