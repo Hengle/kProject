@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CopingDriver : MonoBehaviour 
-{
-	
+public class ReadingsController : MonoBehaviour {
+
 	void Start () 
 	{
 		GameObject mdc_obj = GameObject.FindGameObjectWithTag("MasterData");
@@ -20,7 +19,7 @@ public class CopingDriver : MonoBehaviour
 	public void OnPress( int buttonID )
 	{
 		if (buttonID == 0) {
-			Application.LoadLevel ("MainMenu");
+			Application.LoadLevel ("Arm Yourself");
 		}
 		
 		// Update is called once per frame
