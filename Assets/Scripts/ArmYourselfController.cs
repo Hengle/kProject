@@ -22,8 +22,9 @@ public class ArmYourselfController : MonoBehaviour {
 			Application.LoadLevel ("MainMenu");
 		} else if (buttonID == 1) {
 			Application.LoadLevel ("AYMindful");
+		} else if (buttonID == 2) {
+			Application.LoadLevel ("AYMyDisclaimer");
 		}
-
 		// Update is called once per frame
 		//	void Update () {
 		
