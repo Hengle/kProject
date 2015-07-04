@@ -46,9 +46,17 @@ public class MainMenuDriver : MonoBehaviour
 			Application.LoadLevel ("Coping List");
 		} else if (buttonID == 4) {
 			Application.LoadLevel ("Progress");
-		} else if (buttonID == 5) {
-			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist");
-		} else if (buttonID == 6) {
+		} 
+		else if (buttonID == 5) 
+		{
+			LocationInfo li = new LocationInfo();
+			float lat = li.latitude;
+			float lon = li.longitude;
+			string Latlon = "@" + lat.ToString() + lon.ToString();
+			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist" + "/" + Latlon);
+		} 
+		else if (buttonID == 6) 
+		{
 			Application.LoadLevel ("Arm Yourself");
 		} else if (buttonID == 7) {
 			Application.LoadLevel ("Settings");
