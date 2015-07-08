@@ -11,7 +11,7 @@ public class TestLocationService : MonoBehaviour
 		
 		// Start service before querying location
 		Input.location.Start();
-		
+		 
 		// Wait until service initializes
 		int maxWait = 20;
 		while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)

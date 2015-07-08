@@ -11,27 +11,25 @@ public class MainMenuDriver : MonoBehaviour
 
 	void Start () 
 	{
-		if( MasterDataController.instance == null )
-		{
-			Instantiate(masterDataController);
+		if (MasterDataController.instance == null) {
+			Instantiate (masterDataController);
 		}
 
-		GameObject mdc_obj = GameObject.FindGameObjectWithTag("MasterData");
+		GameObject mdc_obj = GameObject.FindGameObjectWithTag ("MasterData");
 		MasterDataController mdc = null;
-		if( mdc_obj != null )
-		{
-			mdc = mdc_obj.GetComponent<MasterDataController>();
+		if (mdc_obj != null) {
+			mdc = mdc_obj.GetComponent<MasterDataController> ();
 		}
 		
-		if ( mdc != null )
-		{
-			if(mToggle != null)
+		if (mdc != null) {
+			if (mToggle != null)
 				mToggle.isOn = mdc.pJournalDone;
 		}
-	}
 
+
+	}
 	void Update () 
-	{
+	{ 
 	}
 
 	public void OnPress( int buttonID )
@@ -49,9 +47,14 @@ public class MainMenuDriver : MonoBehaviour
 		} 
 		else if (buttonID == 5) 
 		{
+		
+
+			Input.location.Start ();
+			int maxWait = 20;
+
 			LocationInfo li = new LocationInfo();
-			float lat = li.latitude;
-			float lon = li.longitude;
+			float lat = Input.location.lastData.latitude;
+			float lon = Input.location.lastData.longitude;
 			string Latlon = "@" + lat.ToString() + lon.ToString();
 			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist" + "/" + Latlon);
 		} 
