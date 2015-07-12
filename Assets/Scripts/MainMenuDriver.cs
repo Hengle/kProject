@@ -7,7 +7,14 @@ public class MainMenuDriver : MonoBehaviour
 	public Toggle mToggle;
 	static GameObject s_Data = null;
 
+	public Transform m_BackgroundUIAsset;
+
 	public MasterDataController masterDataController;
+
+	void Awake()
+	{
+		m_BackgroundUIAsset.gameObject.SetActive(false);
+	}
 
 	void Start () 
 	{
@@ -25,9 +32,8 @@ public class MainMenuDriver : MonoBehaviour
 			if (mToggle != null)
 				mToggle.isOn = mdc.pJournalDone;
 		}
-
-
 	}
+
 	void Update () 
 	{ 
 	}
@@ -47,16 +53,9 @@ public class MainMenuDriver : MonoBehaviour
 		} 
 		else if (buttonID == 5) 
 		{
-		
-
-			Input.location.Start ();
-			int maxWait = 20;
-
-			LocationInfo li = new LocationInfo();
-			float lat = Input.location.lastData.latitude;
-			float lon = Input.location.lastData.longitude;
-			string Latlon = "@" + lat.ToString() + lon.ToString();
-			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist" + "/" + Latlon);
+			m_BackgroundUIAsset.gameObject.SetActive(true);
+			var controller = new WaitController();
+			StartCoroutine(FindPsychotherapist( 20.0f, controller ));
 		} 
 		else if (buttonID == 6) 
 		{
@@ -66,6 +65,40 @@ public class MainMenuDriver : MonoBehaviour
 		} else if (buttonID == 8) {
 			Application.LoadLevel ("About Us");
 		}
+	}
 
+	public class WaitController
+	{
+		public bool cancel;
+		public bool pause;
+	}
+
+	IEnumerator FindPsychotherapist(float timeToWait, WaitController controller)
+	{
+		Input.location.Start ();
+
+		while(timeToWait > 0 && Input.location.status == LocationServiceStatus.Initializing )
+		{
+			if(!controller.pause)
+				timeToWait -= Time.deltaTime;
+			if(controller.cancel)
+				yield break;
+			yield return null;
+		}
+
+		if( Input.location.status == LocationServiceStatus.Failed )
+		{
+			// TODO: Tell the user that something happen with the GPS servicies.
+			Debug.LogError("Unable to determine device location");
+		}
+		else
+		{
+			LocationInfo li = new LocationInfo();
+			float lat = Input.location.lastData.latitude;
+			float lon = Input.location.lastData.longitude;
+			string Latlon = "@" + lat.ToString() + lon.ToString();
+			m_BackgroundUIAsset.gameObject.SetActive(false);
+			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist" + "/" + Latlon);
+		}
 	}
 }
