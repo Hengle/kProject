@@ -75,6 +75,14 @@ public class MainMenuDriver : MonoBehaviour
 
 	IEnumerator FindPsychotherapist(float timeToWait, WaitController controller)
 	{
+		if( !Input.location.isEnabledByUser )
+		{
+			// TODO : If IOS continue. if anything else popup saying to enable GPS
+
+			m_BackgroundUIAsset.gameObject.SetActive(false);
+			yield break;
+		}
+
 		Input.location.Start ();
 
 		while(timeToWait > 0 && Input.location.status == LocationServiceStatus.Initializing )
@@ -98,7 +106,10 @@ public class MainMenuDriver : MonoBehaviour
 			float lon = Input.location.lastData.longitude;
 			string Latlon = "@" + lat.ToString() + lon.ToString();
 			m_BackgroundUIAsset.gameObject.SetActive(false);
+			Input.location.Stop();
 			Application.OpenURL ("https://www.google.com/maps/search/psychotherapist" + "/" + Latlon);
 		}
+
+		yield break;
 	}
 }
