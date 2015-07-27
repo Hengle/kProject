@@ -7,34 +7,34 @@ using System;
 using System.IO;
 using System.Text;
 
-[Serializable]
-[JsonName("Person")]
-public class Person
+//[Serializable]
+//[JsonName("Person")]
+//public class Person
+//{
+//	public string name;
+//	public string surname;
+//}
+//
+//[JsonName("Animal")]
+//public class Animal
+//{
+//	public string name;
+//	public string species;
+//}
+//
+//[Serializable]
+//public class Parameters
+//{
+//	public float floatValue;
+//	public string stringValue;
+//	public List<Person> listValue;
+//}
+
+
+public class MasterDataController : MonoBehaviour 
 {
-	public string name;
-	public string surname;
-}
-
-[JsonName("Animal")]
-public class Animal
-{
-	public string name;
-	public string species;
-}
-
-[Serializable]
-public class Parameters
-{
-	public float floatValue;
-	public string stringValue;
-	public List<Person> listValue;
-}
-
-
-public class MasterDataController : MonoBehaviour {
-
 	public static MasterDataController instance = null;
-	public bool pJournalDone = false; 
+	public bool bJournalDone = false; 
 
 	string _levelFile = "save.json";
 
@@ -47,15 +47,11 @@ public class MasterDataController : MonoBehaviour {
 		else if( instance != this )
 			Destroy( gameObject );
 
-		//pJournalDone = true;
-
 		DontDestroyOnLoad(gameObject);
-
 	}
 
 	void Start () 
 	{
-
 		if ( LoadFromDisk() == false )
 		{
 	//		List<Person> persons = new List<Person>();
@@ -66,19 +62,47 @@ public class MasterDataController : MonoBehaviour {
 	//		animals.Add(new Animal() { name = "Chimpanzee", species = "Pan troglodytes" });
 	//		animals.Add(new Animal() { name = "Cat", species = "Felis catus" });
 		
-			parameters.Add("floatValue", 3f);
-			parameters.Add("stringValue", "Parameter string info");
+			int dayOfYear = System.DateTime.Now.DayOfYear;
+			parameters.Add("Version", 0.1f);
+			parameters.Add("bJournalDone", bJournalDone);
+			parameters.Add("DayOfYear", dayOfYear);
+
+	//		parameters.Add("stringValue", "Parameter string info");
 	//		parameters.Add("persons", persons.ToArray());
 	//		parameters.Add("animals", animals.ToArray());
+
+			SaveToDisk();
 		}
 
+		int currDayOfYear = System.DateTime.Now.DayOfYear;
+		int savedDayOfYear = (int)parameters["DayOfYear"];
+
+		bJournalDone = (bool)parameters["bJournalDone"];
+
+		if( savedDayOfYear != currDayOfYear )
+		{
+			Debug.Log ("New Day");
+
+			// Reset Data for the day.
+			bJournalDone = false;
+		}
+		else
+		{
+			Debug.Log ("Same Day Detected current" + currDayOfYear + " saved:" + savedDayOfYear);
+		}
 	}
 
 	void Update () 
 	{
 	
 	}
-		
+
+	void OnApplicationQuit() 
+	{
+		parameters["bJournalDone"] = bJournalDone;
+		SaveToDisk();
+	}
+
 	// ---- SERIALIZATION ----
 	void SaveToDisk()
 	{
@@ -106,7 +130,6 @@ public class MasterDataController : MonoBehaviour {
 		}
 
 		StreamReader sr = File.OpenText(_levelFile);
-		return false;
 
 		string n_json = "";
 		n_json = sr.ReadToEnd();
@@ -115,17 +138,25 @@ public class MasterDataController : MonoBehaviour {
 		readerSettings.TypeHintName = "__type";
 		
 		JsonReader reader = new JsonReader(n_json.ToString(), readerSettings);
-		
-		parameters = null;
+
+		parameters.Clear();
 		parameters = (Dictionary<string, object>)reader.Deserialize();
 
-		// Debug output.
-		foreach (KeyValuePair<string, object> kvp in parameters)
+		if( parameters == null )
 		{
-			string key = kvp.Key;
-			object val = kvp.Value;
-			Debug.Log(string.Format("Key : {0}, Value : {1}, Type : {2}", key, val, val.GetType()));
+			sr.Close();
+			return false;
 		}
+
+		// Debug output.
+//		foreach (KeyValuePair<string, object> kvp in parameters)
+//		{
+//			string key = kvp.Key;
+//			object val = kvp.Value;
+//			Debug.Log(string.Format("Key : {0}, Value : {1}, Type : {2}", key, val, val.GetType()));
+//		}
+
+		sr.Close();
 
 		return true;
 	}
