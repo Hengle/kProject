@@ -20,9 +20,6 @@ public class SplashController : MonoBehaviour
 		m_Alpha += (0.0009f) * Time.deltaTime;
 		col.a = 255.0f * m_Alpha;
 		m_TitleImage.color = col;
-
-
-
 	}
 
 	IEnumerator WaitAndContinue(float waitTime) 

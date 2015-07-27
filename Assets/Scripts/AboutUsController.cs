@@ -14,7 +14,7 @@ public class AboutUsController : MonoBehaviour
 		}
 		
 		if ( mdc != null )
-			mdc.pJournalDone = true;
+			mdc.bJournalDone = true;
 	}
 	
 	public void OnPress( int buttonID )

@@ -6,6 +6,7 @@ public class MainMenuDriver : MonoBehaviour
 {
 	public Toggle mToggle;
 	static GameObject s_Data = null;
+	static MasterDataController s_mdc = null;
 
 	public Transform m_BackgroundUIAsset;
 
@@ -24,18 +25,20 @@ public class MainMenuDriver : MonoBehaviour
 
 		GameObject mdc_obj = GameObject.FindGameObjectWithTag ("MasterData");
 		MasterDataController mdc = null;
-		if (mdc_obj != null) {
-			mdc = mdc_obj.GetComponent<MasterDataController> ();
-		}
-		
-		if (mdc != null) {
-			if (mToggle != null)
-				mToggle.isOn = mdc.pJournalDone;
+		if (mdc_obj != null) 
+		{
+			s_mdc = mdc_obj.GetComponent<MasterDataController> ();
 		}
 	}
 
 	void Update () 
 	{ 
+		// TODO: Maybe not update this every frame.. ??
+		if (s_mdc != null) 
+		{
+			if (mToggle != null)
+				mToggle.isOn = s_mdc.bJournalDone;
+		}
 	}
 
 	public void OnPress( int buttonID )

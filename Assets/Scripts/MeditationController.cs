@@ -12,9 +12,6 @@ public class MeditationController : MonoBehaviour
 		{
 			mdc = mdc_obj.GetComponent<MasterDataController>();
 		}
-		
-		if ( mdc != null )
-			mdc.pJournalDone = true;
 	}
 	
 	public void OnPress( int buttonID )
