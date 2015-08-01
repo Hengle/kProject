@@ -34,12 +34,17 @@ using System.Text;
 public class MasterDataController : MonoBehaviour 
 {
 	public static MasterDataController instance = null;
+
+	// Main Data
 	public bool bJournalDone = false; 
+	public bool bMeditationDone = false;
+	public bool bAffirmationDone = false;
 
 	string _levelFile = "save.json";
 
 	Dictionary<string, object> parameters = new Dictionary<string, object>();
 
+	//----------------------------------------------------------------------
 	void Awake()
 	{
 		if( instance == null )
@@ -50,6 +55,7 @@ public class MasterDataController : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 	}
 
+	//----------------------------------------------------------------------
 	void Start () 
 	{
 		if ( LoadFromDisk() == false )
@@ -65,6 +71,8 @@ public class MasterDataController : MonoBehaviour
 			int dayOfYear = System.DateTime.Now.DayOfYear;
 			parameters.Add("Version", 0.1f);
 			parameters.Add("bJournalDone", bJournalDone);
+			parameters.Add("bMeditationDone", bMeditationDone);
+			parameters.Add("bAffirmationDone", bAffirmationDone);
 			parameters.Add("DayOfYear", dayOfYear);
 
 	//		parameters.Add("stringValue", "Parameter string info");
@@ -78,6 +86,8 @@ public class MasterDataController : MonoBehaviour
 		int savedDayOfYear = (int)parameters["DayOfYear"];
 
 		bJournalDone = (bool)parameters["bJournalDone"];
+		bMeditationDone = (bool)parameters["bMeditationDone"];
+		bAffirmationDone = (bool)parameters["bAffirmationDone"];
 
 		if( savedDayOfYear != currDayOfYear )
 		{
@@ -85,6 +95,9 @@ public class MasterDataController : MonoBehaviour
 
 			// Reset Data for the day.
 			bJournalDone = false;
+			bMeditationDone = false;
+			bAffirmationDone = false;
+
 		}
 		else
 		{
@@ -92,18 +105,22 @@ public class MasterDataController : MonoBehaviour
 		}
 	}
 
+	//----------------------------------------------------------------------
 	void Update () 
 	{
 	
 	}
 
+	//----------------------------------------------------------------------
 	void OnApplicationQuit() 
 	{
 		parameters["bJournalDone"] = bJournalDone;
 		SaveToDisk();
 	}
 
+	//----------------------------------------------------------------------
 	// ---- SERIALIZATION ----
+	//----------------------------------------------------------------------
 	void SaveToDisk()
 	{
 		StreamWriter sw = File.CreateText(_levelFile);
@@ -121,7 +138,9 @@ public class MasterDataController : MonoBehaviour
 		Debug.Log("jsonFile " + json.ToString());
 	}
 
+	//----------------------------------------------------------------------
 	// ---- DESERIALIZATION ----
+	//----------------------------------------------------------------------
 	bool LoadFromDisk ()
 	{
 		if (!File.Exists(_levelFile)) 
