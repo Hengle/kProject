@@ -5,13 +5,16 @@ using System.Collections;
 public class AffirmationDriver : MonoBehaviour 
 {
 	public Text m_AffirmationText;
-	public int CurrentAffirmationIndex;
 	public string[] Affirmations;
+
+	[Header("Debug")]
+	public int CurrentAffirmationIndex;
+
+	private MasterDataController mdc = null;
 
 	void Start () 
 	{
 		GameObject mdc_obj = GameObject.FindGameObjectWithTag("MasterData");
-		MasterDataController mdc = null;
 		if( mdc_obj != null )
 		{
 			mdc = mdc_obj.GetComponent<MasterDataController>();
@@ -28,7 +31,12 @@ public class AffirmationDriver : MonoBehaviour
 			m_AffirmationText.text = Affirmations[mdc.CurrentAffirmationIndex];
 		}
 	}
-	
+
+	void Update()
+	{
+		m_AffirmationText.text = Affirmations[CurrentAffirmationIndex];
+	}
+
 	public void OnPress( int buttonID )
 	{
 		if (buttonID == 1) 
