@@ -7,6 +7,14 @@ using System;
 using System.IO;
 using System.Text;
 
+[Serializable]
+[JsonName("SaveData")]
+public class SaveData
+{
+	public bool bOne;
+	public string theString;
+}
+
 //[Serializable]
 //[JsonName("Person")]
 //public class Person
@@ -36,9 +44,10 @@ public class MasterDataController : MonoBehaviour
 	public static MasterDataController instance = null;
 
 	// Main Data
-	public bool bJournalDone = false; 
+	public bool bJournalDone 	= false; 
 	public bool bMeditationDone = false;
 	public bool bAffirmationDone = false;
+	public int  CurrentAffirmationIndex = 0;
 
 	string _levelFile = "save.json";
 
@@ -69,11 +78,18 @@ public class MasterDataController : MonoBehaviour
 	//		animals.Add(new Animal() { name = "Cat", species = "Felis catus" });
 		
 			int dayOfYear = System.DateTime.Now.DayOfYear;
+
+			List<SaveData> saveData = new List<SaveData>();
+			SaveData saveDataElement = new SaveData(){ bOne = false, theString = "string123" };
+			saveData.Add(saveDataElement);
+			parameters.Add ( "saveData", saveData.ToArray() ); 
+
 			parameters.Add("Version", 0.1f);
 			parameters.Add("bJournalDone", bJournalDone);
 			parameters.Add("bMeditationDone", bMeditationDone);
 			parameters.Add("bAffirmationDone", bAffirmationDone);
 			parameters.Add("DayOfYear", dayOfYear);
+			parameters.Add("CurrentAffirmationIndex", CurrentAffirmationIndex );
 
 	//		parameters.Add("stringValue", "Parameter string info");
 	//		parameters.Add("persons", persons.ToArray());
@@ -88,6 +104,7 @@ public class MasterDataController : MonoBehaviour
 		bJournalDone = (bool)parameters["bJournalDone"];
 		bMeditationDone = (bool)parameters["bMeditationDone"];
 		bAffirmationDone = (bool)parameters["bAffirmationDone"];
+		CurrentAffirmationIndex = (int)parameters["CurrentAffirmationIndex"];
 
 		if( savedDayOfYear != currDayOfYear )
 		{
@@ -97,7 +114,7 @@ public class MasterDataController : MonoBehaviour
 			bJournalDone = false;
 			bMeditationDone = false;
 			bAffirmationDone = false;
-
+			CurrentAffirmationIndex++;
 		}
 		else
 		{
@@ -115,6 +132,9 @@ public class MasterDataController : MonoBehaviour
 	void OnApplicationQuit() 
 	{
 		parameters["bJournalDone"] = bJournalDone;
+		parameters["bMeditationDone"] = bMeditationDone;
+		parameters["bAffirmationDone"] = bAffirmationDone;
+		parameters["CurrentAffirmationIndex"] = CurrentAffirmationIndex;
 		SaveToDisk();
 	}
 

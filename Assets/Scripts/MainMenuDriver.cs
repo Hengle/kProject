@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 public class MainMenuDriver : MonoBehaviour 
 {
-	public Toggle mToggle;
+	public Toggle m_JournalToggle;
+	public Toggle m_AffirmationToggle;
+	public Toggle m_MeditationToggle;
+
+
 	static GameObject s_Data = null;
 	static MasterDataController s_mdc = null;
 
@@ -36,8 +40,12 @@ public class MainMenuDriver : MonoBehaviour
 		// TODO: Maybe not update this every frame.. ??
 		if (s_mdc != null) 
 		{
-			if (mToggle != null)
-				mToggle.isOn = s_mdc.bJournalDone;
+			if (m_JournalToggle != null)
+				m_JournalToggle.isOn = s_mdc.bJournalDone;
+			if (m_AffirmationToggle != null)
+				m_AffirmationToggle.isOn = s_mdc.bAffirmationDone;
+			if (m_MeditationToggle != null)
+				m_MeditationToggle.isOn = s_mdc.bMeditationDone;
 		}
 	}
 

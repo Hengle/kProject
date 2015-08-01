@@ -11,17 +11,15 @@ public class MeditationController : MonoBehaviour
 		if( mdc_obj != null )
 		{
 			mdc = mdc_obj.GetComponent<MasterDataController>();
+			mdc.bMeditationDone = true;
 		}
 	}
 	
 	public void OnPress( int buttonID )
 	{
-		if (buttonID == 1) {
+		if (buttonID == 1) 
+		{
 			Application.LoadLevel ("MainMenu");
 		}
-		
-		// Update is called once per frame
-		//	void Update () {
-		
 	}
 }
