@@ -72,25 +72,9 @@ public class MasterDataController : MonoBehaviour
 	//		List<Person> persons = new List<Person>();
 	//		persons.Add(new Person() { name = "Clayton", surname = "Curmi" });
 	//		persons.Add(new Person() { name = "Karen", surname = "Attard" });
-	//		
 	//		List<Animal> animals = new List<Animal>();
 	//		animals.Add(new Animal() { name = "Chimpanzee", species = "Pan troglodytes" });
 	//		animals.Add(new Animal() { name = "Cat", species = "Felis catus" });
-		
-			int dayOfYear = System.DateTime.Now.DayOfYear;
-
-			List<SaveData> saveData = new List<SaveData>();
-			SaveData saveDataElement = new SaveData(){ bOne = false, theString = "string123" };
-			saveData.Add(saveDataElement);
-			parameters.Add ( "saveData", saveData.ToArray() ); 
-
-			parameters.Add("Version", 0.1f);
-			parameters.Add("bJournalDone", bJournalDone);
-			parameters.Add("bMeditationDone", bMeditationDone);
-			parameters.Add("bAffirmationDone", bAffirmationDone);
-			parameters.Add("DayOfYear", dayOfYear);
-			parameters.Add("CurrentAffirmationIndex", CurrentAffirmationIndex );
-
 	//		parameters.Add("stringValue", "Parameter string info");
 	//		parameters.Add("persons", persons.ToArray());
 	//		parameters.Add("animals", animals.ToArray());
@@ -131,10 +115,6 @@ public class MasterDataController : MonoBehaviour
 	//----------------------------------------------------------------------
 	void OnApplicationQuit() 
 	{
-		parameters["bJournalDone"] = bJournalDone;
-		parameters["bMeditationDone"] = bMeditationDone;
-		parameters["bAffirmationDone"] = bAffirmationDone;
-		parameters["CurrentAffirmationIndex"] = CurrentAffirmationIndex;
 		SaveToDisk();
 	}
 
@@ -150,6 +130,23 @@ public class MasterDataController : MonoBehaviour
 		
 		StringBuilder json = new StringBuilder();
 		JsonWriter writer = new JsonWriter(json, writerSettings);
+
+		// Data
+
+		int dayOfYear = System.DateTime.Now.DayOfYear;
+		parameters.Clear();
+		List<SaveData> saveData = new List<SaveData>();
+		saveData.Add(new SaveData(){ bOne = false, theString = "string123" });
+		parameters.Add ( "saveData", saveData.ToArray() ); 
+		parameters.Add("Version", 0.1f);
+		parameters.Add("bJournalDone", bJournalDone);
+		parameters.Add("bMeditationDone", bMeditationDone);
+		parameters.Add("bAffirmationDone", bAffirmationDone);
+		parameters.Add("DayOfYear", dayOfYear);
+		parameters.Add("CurrentAffirmationIndex", CurrentAffirmationIndex );
+
+		// End Data
+
 		writer.Write(parameters);
 		
 		sw.Write(json);
