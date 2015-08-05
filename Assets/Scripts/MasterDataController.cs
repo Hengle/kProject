@@ -119,6 +119,13 @@ public class MasterDataController : MonoBehaviour
 	}
 
 	//----------------------------------------------------------------------
+	void OnApplicationFocus(bool focusStatus) 
+	{
+		if( focusStatus == false )
+			SaveToDisk();
+	}
+
+	//----------------------------------------------------------------------
 	// ---- SERIALIZATION ----
 	//----------------------------------------------------------------------
 	void SaveToDisk()
