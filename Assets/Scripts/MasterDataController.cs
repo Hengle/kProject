@@ -130,7 +130,12 @@ public class MasterDataController : MonoBehaviour
 	//----------------------------------------------------------------------
 	void SaveToDisk()
 	{
-		StreamWriter sw = File.CreateText(_levelFile);
+		string dataPath = Application.persistentDataPath;
+		string loadFile = dataPath + _levelFile;
+
+		Debug.Log(loadFile);
+
+		StreamWriter sw = File.CreateText(loadFile);
 
 		JsonWriterSettings writerSettings = new JsonWriterSettings();
 		writerSettings.TypeHintName = "__type";
@@ -167,12 +172,16 @@ public class MasterDataController : MonoBehaviour
 	//----------------------------------------------------------------------
 	bool LoadFromDisk ()
 	{
-		if (!File.Exists(_levelFile)) 
+		string dataPath = Application.persistentDataPath;
+		string loadFile = dataPath + _levelFile;
+		Debug.Log(loadFile);
+
+		if (!File.Exists(loadFile)) 
 		{
 			return false;
 		}
 
-		StreamReader sr = File.OpenText(_levelFile);
+		StreamReader sr = File.OpenText(loadFile);
 
 		string n_json = "";
 		n_json = sr.ReadToEnd();
