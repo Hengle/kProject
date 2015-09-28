@@ -21,5 +21,6 @@ public class MeditationController : MonoBehaviour
 		{
 			Application.LoadLevel ("MainMenu");
 		}
+
 	}
 }
