@@ -19,7 +19,7 @@ public class MeditationController : MonoBehaviour
 	{
 		if (buttonID == 1) 
 		{
-			Application.LoadLevel ("MainMenu");
+			Application.LoadLevel ("Meditation");
 		}
 
 	}

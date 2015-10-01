@@ -25,5 +25,29 @@ public class MeditationMAIN : MonoBehaviour
 		{
 			Application.LoadLevel ("Beg_Med");
 		}
+		if (buttonID == 3) 
+		{
+			Application.LoadLevel ("Gen_Med");
+		}
+		if (buttonID == 4) 
+		{
+			Application.LoadLevel ("Acc_Med");
+		}
+		if (buttonID == 5) 
+		{
+			Application.LoadLevel ("Clentch");
+		}
+		if (buttonID == 6) 
+		{
+			Application.LoadLevel ("SOS");
+		}
+		if (buttonID == 7) 
+		{
+			Application.LoadLevel ("Target");
+		}
+		if (buttonID == 8) 
+		{
+			Application.LoadLevel ("Warmth");
+		}
 	}
 }
